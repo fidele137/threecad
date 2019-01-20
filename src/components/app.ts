@@ -14,36 +14,25 @@ import './right-panel.js';
 import './bottom-bar.js';
 
 import './tree.js';
-import './object.js';
 import './scene.js';
-import './camera.js';
+import './mesh.js';
 
+import { connect } from 'pwa-helpers/connect-mixin.js';
 // This element is connected to the Redux store.
 import { store, RootState } from '../redux/store.js';
-
 // These are the actions needed by this element.
 import { add, play, stop, drawerOpened } from '../redux/actions/top-bar.js';
-
 // We are lazy loading its reducer.
 import topBar from '../redux/reducers/top-bar.js';
 store.addReducers({
   topBar
 });
 
+import { BoxGeometry, MeshBasicMaterial, Mesh } from 'three';
+
 @customElement('cad-app')
-export class CadApp extends LitElement {
+export class CadApp extends connect(store)(LitElement) {
   @property({ type: String }) name = 'cad-app';
-
-  @property({ type: Object }) camera: any;
-  @property({ type: Object }) scene: any;
-
-  @property({ type: Object }) geometries: any;
-  @property({ type: Object }) materials: any;
-  @property({ type: Object }) textures: any;
-  @property({ type: Object }) meshes: any;
-  @property({ type: Object }) script: any;
-
-  @property({ type: Object }) selectedObject: any;
 
   render() {
     return html`
@@ -86,6 +75,11 @@ export class CadApp extends LitElement {
             'bottom-bar bottom-bar bottom-bar';
         }
 
+        canvas {
+          width: 100%;
+          height: 100%;
+        }
+
         cad-top-bar {
           grid-area: top-bar;
         }
@@ -107,11 +101,7 @@ export class CadApp extends LitElement {
         }
       </style>
 
-      <cad-top-bar
-        @add="${() => this.add('1')}"
-        @play="${this.play}"
-        @drawerOpened="${this.drawerOpened}"
-      ></cad-top-bar>
+      <cad-top-bar @add="${this.add}" @play="${this.play}" @drawerOpened="${this.drawerOpened}"></cad-top-bar>
       <cad-left-panel></cad-left-panel>
       <cad-canvas></cad-canvas>
       <cad-right-panel></cad-right-panel>
@@ -119,9 +109,12 @@ export class CadApp extends LitElement {
     `;
   }
 
-  add(id: string) {
-    console.log('add');
-    store.dispatch(add({ id }));
+  add() {
+    console.log('adding box');
+    const geometry = new BoxGeometry(1, 1, 1);
+    const material = new MeshBasicMaterial({ color: 0x00ff00 });
+    const mesh = new Mesh(geometry, material);
+    store.dispatch(add(mesh));
   }
 
   play() {

@@ -3,17 +3,20 @@ export const ADD = 'ADD';
 export const PLAY = 'PLAY';
 export const STOP = 'STOP';
 export const DRAWER_OPENED = 'DRAWER_OPENED';
+import { Mesh } from 'three';
 
-export interface TopBarActionAdd extends Action<'ADD'> {}
+export interface TopBarActionAdd extends Action<'ADD'> {
+  mesh: Mesh;
+}
 export interface TopBarActionPlay extends Action<'PLAY'> {}
 export interface TopBarActionStop extends Action<'STOP'> {}
 export interface TopBarActionDrawerOpened extends Action<'DRAWER_OPENED'> {}
 export type TopBarAction = TopBarActionAdd | TopBarActionPlay | TopBarActionStop | TopBarActionDrawerOpened;
 
-export const add: ActionCreator<TopBarActionAdd> = (object: any) => {
+export const add: ActionCreator<TopBarActionAdd> = (mesh: Mesh) => {
   return {
     type: ADD,
-    object
+    mesh
   };
 };
 

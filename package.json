@@ -40,6 +40,7 @@
     "@polymer/paper-button": "^3.0.1",
     "@polymer/paper-icon-button": "^3.0.2",
     "@polymer/paper-spinner": "^3.0.1",
+    "@types/three": "^0.93.15",
     "@webcomponents/webcomponentsjs": "^2.2.3",
     "lit-element": "^2.0.0-rc.2",
     "lit-html": "^1.0.0-rc.2",
