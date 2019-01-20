@@ -13,6 +13,9 @@ export class CadCanvas extends LitElement {
       </style>
       <div>${this.name}</div>
       <cad-tree></cad-tree>
+      <cad-object></cad-object>
+      <cad-camera></cad-camera>
+      <cad-scene></cad-scene>
     `;
   }
 }

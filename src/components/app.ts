@@ -14,10 +14,36 @@ import './right-panel.js';
 import './bottom-bar.js';
 
 import './tree.js';
+import './object.js';
+import './scene.js';
+import './camera.js';
+
+// This element is connected to the Redux store.
+import { store, RootState } from '../redux/store.js';
+
+// These are the actions needed by this element.
+import { add, play, stop, drawerOpened } from '../redux/actions/top-bar.js';
+
+// We are lazy loading its reducer.
+import topBar from '../redux/reducers/top-bar.js';
+store.addReducers({
+  topBar
+});
 
 @customElement('cad-app')
 export class CadApp extends LitElement {
   @property({ type: String }) name = 'cad-app';
+
+  @property({ type: Object }) camera: any;
+  @property({ type: Object }) scene: any;
+
+  @property({ type: Object }) geometries: any;
+  @property({ type: Object }) materials: any;
+  @property({ type: Object }) textures: any;
+  @property({ type: Object }) meshes: any;
+  @property({ type: Object }) script: any;
+
+  @property({ type: Object }) selectedObject: any;
 
   render() {
     return html`
@@ -81,11 +107,35 @@ export class CadApp extends LitElement {
         }
       </style>
 
-      <cad-top-bar></cad-top-bar>
+      <cad-top-bar
+        @add="${() => this.add('1')}"
+        @play="${this.play}"
+        @drawerOpened="${this.drawerOpened}"
+      ></cad-top-bar>
       <cad-left-panel></cad-left-panel>
       <cad-canvas></cad-canvas>
       <cad-right-panel></cad-right-panel>
       <cad-bottom-bar></cad-bottom-bar>
     `;
+  }
+
+  add(id: string) {
+    console.log('add');
+    store.dispatch(add({ id }));
+  }
+
+  play() {
+    console.log('play');
+    store.dispatch(play());
+  }
+
+  stop() {
+    console.log('stop');
+    store.dispatch(stop());
+  }
+
+  drawerOpened() {
+    console.log('drawerOpened');
+    store.dispatch(drawerOpened());
   }
 }

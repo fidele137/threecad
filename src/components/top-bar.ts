@@ -86,15 +86,14 @@ export class CadTopBar extends LitElement {
 
       <app-header role="navigation" id="header" effects="waterfall" condenses reveals>
         <app-toolbar>
+          <paper-button @click="${this._menuButtonClicked}"><iron-icon icon="menu"></iron-icon>Menu</paper-button>
+
           <div>
-            <paper-button><iron-icon icon="menu"></iron-icon>Menu</paper-button>
+            <paper-button @click="${this.add}"><iron-icon icon="add"></iron-icon>Add</paper-button>
+            <paper-button @click="${this.play}"><iron-icon icon="play_arrow"></iron-icon>Play</paper-button>
           </div>
           <div>
-            <paper-button><iron-icon icon="add"></iron-icon>Add</paper-button>
-            <paper-button><iron-icon icon="play_arrow"></iron-icon>Play</paper-button>
-          </div>
-          <div>
-            <paper-button><iron-icon icon="account_circle"></iron-icon>Account</paper-button>
+            <paper-button @click="${this.account}"><iron-icon icon="account_circle"></iron-icon>Account</paper-button>
           </div>
           <paper-progress value="10" indeterminate bottom-item></paper-progress>
         </app-toolbar>
@@ -115,12 +114,22 @@ export class CadTopBar extends LitElement {
     `;
   }
 
-  _menuButtonClicked() {
-    console.log('_menuButtonClicked');
-    this._drawerOpened = !this._drawerOpened;
+  add() {
+    this.dispatchEvent(new CustomEvent('add'));
   }
 
-  _drawerOpenedChanged() {
-    console.log('_menuButtonClicked');
+  play() {
+    this.dispatchEvent(new CustomEvent('play'));
   }
+
+  account() {
+    this.dispatchEvent(new CustomEvent('account'));
+  }
+
+  _menuButtonClicked() {
+    this._drawerOpened = !this._drawerOpened;
+    this.dispatchEvent(new CustomEvent('drawerOpened'));
+  }
+
+  _drawerOpenedChanged() {}
 }
