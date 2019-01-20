@@ -2,7 +2,7 @@ import { LitElement, html, property, customElement } from 'lit-element';
 
 @customElement('cad-canvas')
 export class CadCanvas extends LitElement {
-  @property() name = 'cad-canvas';
+  @property({ type: String }) name = 'cad-canvas';
 
   render() {
     return html`
@@ -12,6 +12,7 @@ export class CadCanvas extends LitElement {
         }
       </style>
       <div>${this.name}</div>
+      <cad-tree></cad-tree>
     `;
   }
 }

@@ -8,16 +8,18 @@ const categoriesList = [
 
 @customElement('cad-top-bar')
 export class CadTopBar extends LitElement {
-  @property() name = 'cad-top-bar';
+  @property({ type: String }) name = 'cad-top-bar';
 
-  @property() _drawerOpened = false;
-  @property() _categoryName = '_categoryName';
+  @property({ type: Boolean }) _drawerOpened = false;
+  @property({ type: String }) _categoryName = '_categoryName';
 
   render() {
     return html`
       <style>
         :host {
           display: block;
+
+          color: var(--text-color);
         }
 
         app-header,
@@ -31,7 +33,8 @@ export class CadTopBar extends LitElement {
           left: 0;
           right: 0;
           z-index: 1;
-          background-color: rgba(255, 255, 255, 0.95);
+          background-color: var(--background-color);
+          /* background-color: rgba(255, 255, 255, 0.95); */
           --app-header-shadow: {
             box-shadow: inset 0px 5px 6px -3px rgba(0, 0, 0, 0.2);
             height: 10px;
@@ -39,8 +42,24 @@ export class CadTopBar extends LitElement {
           }
         }
 
+        app-toolbar {
+          display: flex;
+          justify-content: space-between;
+        }
+
         paper-icon-button {
           color: var(--app-primary-color);
+        }
+
+        paper-button {
+          text-transform: unset;
+          height: 40px;
+          padding: 0 0.5rem;
+          font-size: var(--font-small);
+        }
+
+        iron-icon {
+          margin-right: 0.25rem;
         }
 
         app-drawer {
@@ -67,7 +86,16 @@ export class CadTopBar extends LitElement {
 
       <app-header role="navigation" id="header" effects="waterfall" condenses reveals>
         <app-toolbar>
-          <paper-icon-button icon="menu" @click="${this._menuButtonClicked}" aria-label="Scene"></paper-icon-button>
+          <div>
+            <paper-button><iron-icon icon="menu"></iron-icon>Menu</paper-button>
+          </div>
+          <div>
+            <paper-button><iron-icon icon="add"></iron-icon>Add</paper-button>
+            <paper-button><iron-icon icon="play_arrow"></iron-icon>Play</paper-button>
+          </div>
+          <div>
+            <paper-button><iron-icon icon="account_circle"></iron-icon>Account</paper-button>
+          </div>
           <paper-progress value="10" indeterminate bottom-item></paper-progress>
         </app-toolbar>
       </app-header>

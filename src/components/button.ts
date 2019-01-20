@@ -2,7 +2,7 @@ import { LitElement, html, property, customElement } from 'lit-element';
 
 @customElement('cad-button')
 export class CadButton extends LitElement {
-  @property() name = 'cad-button';
+  @property({ type: String }) name = 'cad-button';
 
   render() {
     return html`
