@@ -4,12 +4,14 @@ import { RootAction } from '../store.js';
 import { Mesh } from 'three';
 
 export interface TopBarState {
+  mesh: Mesh;
   meshes: { [key: string]: Mesh };
   playing: boolean;
   drawerOpened: boolean;
 }
 
 const INITIAL_STATE: TopBarState = {
+  mesh: null!,
   meshes: {},
   playing: false,
   drawerOpened: false
@@ -21,6 +23,7 @@ const topBar: Reducer<TopBarState, RootAction> = (state = INITIAL_STATE, action)
       const mesh = action.mesh;
       return {
         ...state,
+        mesh,
         meshes: { ...state.meshes, [mesh.uuid]: mesh }
       };
     case PLAY:

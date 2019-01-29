@@ -6,29 +6,24 @@ import '@polymer/paper-button/paper-button.js';
 import '@polymer/paper-icon-button/paper-icon-button.js';
 import '@polymer/app-layout/app-drawer/app-drawer.js';
 
+import 'two-up-element/dist/two-up.mjs';
+import 'pinch-zoom-element/dist/pinch-zoom.mjs';
+
 import './icons.js';
 import './top-bar.js';
 import './left-panel.js';
 import './canvas.js';
 import './right-panel.js';
 import './bottom-bar.js';
+import './divider.js';
 
 import './tree.js';
 import './scene.js';
 import './mesh.js';
 
 import { connect } from 'pwa-helpers/connect-mixin.js';
-// This element is connected to the Redux store.
-import { store, RootState } from '../redux/store.js';
-// These are the actions needed by this element.
-import { add, play, stop, drawerOpened } from '../redux/actions/top-bar.js';
-// We are lazy loading its reducer.
-import topBar from '../redux/reducers/top-bar.js';
-store.addReducers({
-  topBar
-});
-
-import { BoxGeometry, MeshBasicMaterial, Mesh } from 'three';
+// // This element is connected to the Redux store.
+import { store } from '../redux/store.js';
 
 @customElement('cad-app')
 export class CadApp extends connect(store)(LitElement) {
@@ -64,10 +59,16 @@ export class CadApp extends connect(store)(LitElement) {
           --background-color: #07162f;
           --font-size-small: 0.9rem;
 
+          /* Partition */
+          --cad-left-width: 192px;
+          --cad-right-width: 192px;
+
           height: 100vh;
           position: relative;
+          overflow-x: hidden;
+
           display: grid;
-          grid-template-columns: 192px auto 192px;
+          grid-template-columns: minmax(0, min-content) minmax(0, min-content) minmax(0, min-content);
           grid-template-rows: 48px auto 96px;
           grid-template-areas:
             'top-bar top-bar top-bar'
@@ -76,8 +77,8 @@ export class CadApp extends connect(store)(LitElement) {
         }
 
         canvas {
-          width: 100%;
-          height: 100%;
+          /* width: 100%;
+          height: 100%; */
         }
 
         cad-top-bar {
@@ -101,34 +102,11 @@ export class CadApp extends connect(store)(LitElement) {
         }
       </style>
 
-      <cad-top-bar @add="${this.add}" @play="${this.play}" @drawerOpened="${this.drawerOpened}"></cad-top-bar>
+      <cad-top-bar></cad-top-bar>
       <cad-left-panel></cad-left-panel>
       <cad-canvas></cad-canvas>
       <cad-right-panel></cad-right-panel>
       <cad-bottom-bar></cad-bottom-bar>
     `;
-  }
-
-  add() {
-    console.log('adding box');
-    const geometry = new BoxGeometry(1, 1, 1);
-    const material = new MeshBasicMaterial({ color: 0x00ff00 });
-    const mesh = new Mesh(geometry, material);
-    store.dispatch(add(mesh));
-  }
-
-  play() {
-    console.log('play');
-    store.dispatch(play());
-  }
-
-  stop() {
-    console.log('stop');
-    store.dispatch(stop());
-  }
-
-  drawerOpened() {
-    console.log('drawerOpened');
-    store.dispatch(drawerOpened());
   }
 }

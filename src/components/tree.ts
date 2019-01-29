@@ -30,7 +30,7 @@ export class CadTree extends LitElement {
       Tutorial: 'html'
     },
     Pictures: {
-      'Photo Booth Library': {
+      'Photo Booth Library for Vacations': {
         Contents: 'dir',
         Pictures: 'dir'
       },
@@ -86,6 +86,7 @@ export class CadTree extends LitElement {
       <style>
         :host {
           display: inline-block;
+          overflow: auto;
           --padding-base: 1.5rem;
         }
 
@@ -121,6 +122,10 @@ export class CadTree extends LitElement {
           padding: 0;
           background: none;
           cursor: pointer;
+        }
+
+        span {
+          display: inline-block;
         }
       </style>
       ${this.treeTemplate(this.data)}

@@ -1,6 +1,14 @@
 import { LitElement, html, property, customElement } from 'lit-element';
 import { repeat } from 'lit-html/directives/repeat.js';
 
+import { BoxGeometry, MeshBasicMaterial, Mesh } from 'three';
+
+import { store } from '../redux/store.js';
+import { add, play, stop, drawerOpened } from '../redux/actions/top-bar.js';
+import topBar from '../redux/reducers/top-bar.js';
+
+store.addReducers({ topBar });
+
 const categoriesList = [
   { title: 'title1', name: 'name1', value: 'value1' },
   { titile: 'titile2', name: 'name2', value: 'value2' }
@@ -18,7 +26,6 @@ export class CadTopBar extends LitElement {
       <style>
         :host {
           display: block;
-
           color: var(--text-color);
         }
 
@@ -115,11 +122,26 @@ export class CadTopBar extends LitElement {
   }
 
   add() {
-    this.dispatchEvent(new CustomEvent('add'));
+    console.log('adding box');
+    const geometry = new BoxGeometry(1, 1, 1);
+    const material = new MeshBasicMaterial({ color: 0x00ff00 });
+    const mesh = new Mesh(geometry, material);
+    store.dispatch(add(mesh));
   }
 
   play() {
-    this.dispatchEvent(new CustomEvent('play'));
+    console.log('play');
+    store.dispatch(play());
+  }
+
+  stop() {
+    console.log('stop');
+    store.dispatch(stop());
+  }
+
+  drawerOpened() {
+    console.log('drawerOpened');
+    store.dispatch(drawerOpened());
   }
 
   account() {
